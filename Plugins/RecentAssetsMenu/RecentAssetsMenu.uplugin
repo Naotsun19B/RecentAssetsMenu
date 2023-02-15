@@ -1,0 +1,30 @@
+{
+	"FileVersion": 3,
+	"Version": 1.0,
+	"VersionName": "1.0",
+	"FriendlyName": "RecentAssetsMenu",
+	"Description": "Adds a menu to open recently opened assets in the file menu.",
+	"Category": "Editor",
+	"CreatedBy": "Naotsun",
+	"CreatedByURL": "https://twitter.com/Naotsun_UE",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "RecentAssetsMenu",
+			"Type": "EditorNoCommandlet",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Win32",
+				"Mac",
+				"Linux"
+			]
+		}
+	]
+}

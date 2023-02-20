@@ -4,10 +4,10 @@
 #include "RecentAssetsMenu/RecentAssetsMenuGlobals.h"
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommandActions.h"
 #include "Interfaces/IMainFrameModule.h"
-#if BEFORE_UE_4_27
-#include "EditorStyleSet.h"
-#else
+#if UE_5_00_OR_LATER
 #include "Styling/AppStyle.h"
+#else
+#include "EditorStyleSet.h"
 #endif
 
 #define LOCTEXT_NAMESPACE "RecentAssetsMenuCommands"
@@ -20,10 +20,10 @@ namespace RecentAssetsMenu
 			TEXT("RecentAssetsMenu"),
 			NSLOCTEXT("Contexts", "RecentAssetsMenu", "Recent Assets Menu"),
 			NAME_None,
-#if BEFORE_UE_4_27
-			FEditorStyle::GetStyleSetName()
-#else
+#if UE_5_00_OR_LATER
 			FAppStyle::GetAppStyleSetName()
+#else
+			FEditorStyle::GetStyleSetName()
 #endif
 		)
 		, CommandBindings(MakeShared<FUICommandList>())

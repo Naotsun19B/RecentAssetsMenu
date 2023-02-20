@@ -21,8 +21,7 @@ namespace RecentAssetsMenu
 		check(RecentlyOpenedAssetsList != nullptr);
 		return *RecentlyOpenedAssetsList;
 	}
-
-
+	
 	void FRecentAssetsMenuCommandActions::OpenRecentlyOpenedAsset(const int32 RecentAssetIndex)
 	{
 		struct FMainMRUFavoritesListExtension
@@ -35,12 +34,12 @@ namespace RecentAssetsMenu
 				check(InItem > -1 && InItem < RecentlyOpenedAssetsList.GetMaxItems());
 				
 				const FString OriginalPackageName = RecentlyOpenedAssetsList.GetMRUItem(InItem);
-#if BEFORE_UE_5_00
-				const FName OriginalObjectPath = FName(*(OriginalPackageName + TEXT('.') + FPackageName::GetShortName(OriginalPackageName)));
-				const FName RedirectedObjectPath = IAssetRegistry::GetChecked().GetRedirectedObjectPath(OriginalObjectPath);
-#else
+#if UE_5_01_OR_LATER
 				const FSoftObjectPath OriginalObjectPath = FSoftObjectPath(*OriginalPackageName, *FPackageName::GetShortName(OriginalPackageName), {});
 				const FSoftObjectPath RedirectedObjectPath = IAssetRegistry::GetChecked().GetRedirectedObjectPath(OriginalObjectPath);
+#else
+				const FName OriginalObjectPath = FName(*(OriginalPackageName + TEXT('.') + FPackageName::GetShortName(OriginalPackageName)));
+				const FName RedirectedObjectPath = IAssetRegistry::GetChecked().GetRedirectedObjectPath(OriginalObjectPath);
 #endif
 
 				FString PackageName;
@@ -93,10 +92,10 @@ namespace RecentAssetsMenu
 			if (auto* AssetEditorSubsystem = GEditor->GetEditorSubsystem<UAssetEditorSubsystem>())
 			{
 				AssetEditorSubsystem->OpenEditorForAsset(
-#if BEFORE_UE_5_00
-					NewPackageName
-#else
+#if UE_5_01_OR_LATER
 					FSoftObjectPath(NewPackageName)
+#else
+					NewPackageName
 #endif
 				);
 			}

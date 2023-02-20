@@ -8,10 +8,10 @@
 #include "ToolMenus.h"
 #include "MRUFavoritesList.h"
 #include "Engine/World.h"
-#if BEFORE_UE_4_27
-#include "EditorStyleSet.h"
-#else
+#if UE_5_00_OR_LATER
 #include "Styling/AppStyle.h"
+#else
+#include "EditorStyleSet.h"
 #endif
 
 #define LOCTEXT_NAMESPACE "ToolbarExtender"
@@ -40,10 +40,10 @@ namespace RecentAssetsMenu
 			FNewToolMenuDelegate::CreateStatic(&FToolMenuExtender::MakeRecentAssetsMenu),
 			false,
 			FSlateIcon(
-#if BEFORE_UE_4_27
-				FEditorStyle::GetStyleSetName(),
-#else
+#if UE_5_00_OR_LATER
 				FAppStyle::GetAppStyleSetName(),
+#else
+				FEditorStyle::GetStyleSetName(),
 #endif
 				TEXT("PlacementBrowser.Icons.Recent")
 			)
@@ -86,10 +86,10 @@ namespace RecentAssetsMenu
 			bool bContainsLevelAsset = false;
 			for (const auto& AssetData : AssetDataList)
 			{
-#if BEFORE_UE_5_00
-				if (AssetData.AssetClass == WorldAssetClass->GetFName())
-#else
+#if UE_5_01_OR_LATER
 				if (AssetData.AssetClassPath == WorldAssetClass->GetClassPathName())
+#else
+				if (AssetData.AssetClass == WorldAssetClass->GetFName())
 #endif
 				{
 					bContainsLevelAsset = true;

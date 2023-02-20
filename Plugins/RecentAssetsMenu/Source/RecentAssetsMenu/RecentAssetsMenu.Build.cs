@@ -22,6 +22,7 @@ public class RecentAssetsMenu : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"UnrealEd",
+				"Projects",
 				"EditorStyle",
 				"Slate",
 				"SlateCore",

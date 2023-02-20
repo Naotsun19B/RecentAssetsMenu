@@ -5,6 +5,7 @@
 #include "RecentAssetsMenu/RecentAssetsMenuGlobals.h"
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommands.h"
 #include "RecentAssetsMenu/UIExtensions/ToolMenuExtender.h"
+#include "RecentAssetsMenu/Utilities/RecentAssetsMenuStyle.h"
 
 DEFINE_LOG_CATEGORY(LogRecentAssetsMenu);
 
@@ -21,6 +22,9 @@ namespace RecentAssetsMenu
 
 	void FRecentAssetsMenuModule::StartupModule()
 	{
+		// Register style set.
+		FRecentAssetsMenuStyle::Register();
+		
 		// Register command actions.
 		FRecentAssetsMenuCommands::Register();
 		FRecentAssetsMenuCommands::Bind();
@@ -33,6 +37,9 @@ namespace RecentAssetsMenu
 	{
 		// Unregister command actions.
 		FRecentAssetsMenuCommands::Unregister();
+
+		// Unregister style set.
+		FRecentAssetsMenuStyle::Unregister();
 	}
 }
 

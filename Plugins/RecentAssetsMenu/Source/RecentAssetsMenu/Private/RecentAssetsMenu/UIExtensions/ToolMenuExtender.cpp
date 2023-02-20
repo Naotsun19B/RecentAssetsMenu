@@ -4,6 +4,7 @@
 #include "RecentAssetsMenu/RecentAssetsMenuGlobals.h"
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommands.h"
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommandActions.h"
+#include "RecentAssetsMenu/Utilities/RecentAssetsMenuStyle.h"
 #include "AssetRegistry/IAssetRegistry.h"
 #include "ToolMenus.h"
 #include "MRUFavoritesList.h"
@@ -26,26 +27,42 @@ namespace RecentAssetsMenu
 			return;
 		}
 		
-		UToolMenu* ToolMenu = ToolMenus->ExtendMenu(TEXT("MainFrame.MainMenu.File"));
+		UToolMenu* ToolMenu = ToolMenus->ExtendMenu(
+#if UE_5_00_OR_LATER
+			TEXT("MainFrame.MainMenu.File")
+#else
+			TEXT("LevelEditor.MainMenu.File")
+#endif
+		);
 		if (!IsValid(ToolMenu))
 		{
 			return;
 		}
 
 		FToolMenuSection& Section = ToolMenu->FindOrAddSection(TEXT("FileOpen"));
-		Section.AddSubMenu(
-			TEXT("RecentAssetsSubMenu"),
-			LOCTEXT("RecentAssetsSubMenuLabel", "Recent Assets"),
-			LOCTEXT("RecentAssetsSubMenuToolTip", "Select a asset to open"),
-			FNewToolMenuDelegate::CreateStatic(&FToolMenuExtender::MakeRecentAssetsMenu),
-			false,
-			FSlateIcon(
-#if UE_5_00_OR_LATER
-				FAppStyle::GetAppStyleSetName(),
-#else
-				FEditorStyle::GetStyleSetName(),
+#if !UE_5_00_OR_LATER
+		Section.InsertPosition = FToolMenuInsert(TEXT("FileRecentFiles"), EToolMenuInsertType::After);
 #endif
-				TEXT("PlacementBrowser.Icons.Recent")
+		Section.AddDynamicEntry(
+			TEXT("FileRecentAssets"),
+			FNewToolMenuSectionDelegate::CreateLambda(
+				[](FToolMenuSection& InSection)
+				{
+					const FMainMRUFavoritesList& RecentlyOpenedAssetsList = FRecentAssetsMenuCommandActions::GetRecentlyOpenedAssetsList();
+					if (RecentlyOpenedAssetsList.GetNumItems() == 0)
+					{
+						return;
+					}
+
+					InSection.AddSubMenu(
+						TEXT("RecentAssetsSubMenu"),
+						LOCTEXT("RecentAssetsSubMenuLabel", "Recent Assets"),
+						LOCTEXT("RecentAssetsSubMenuToolTip", "Select a asset to open"),
+						FNewToolMenuDelegate::CreateStatic(&FToolMenuExtender::MakeRecentAssetsMenu),
+						false,
+						FRecentAssetsMenuStyle::GetSlateIconFromIconType(ERecentAssetsMenuStyleIconType::OpenRecentAsset)
+					);
+				}
 			)
 		);
 	}

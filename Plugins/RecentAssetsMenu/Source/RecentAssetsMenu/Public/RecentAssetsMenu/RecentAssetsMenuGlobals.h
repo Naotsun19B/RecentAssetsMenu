@@ -5,6 +5,12 @@
 #include "CoreMinimal.h"
 #include "Version.h"
 
+namespace RecentAssetsMenu
+{
+	// The name of this plugin.
+	static const FName PluginName = TEXT("RecentAssetsMenu");
+}
+
 /**
  * Macro to support each engine version.
  */

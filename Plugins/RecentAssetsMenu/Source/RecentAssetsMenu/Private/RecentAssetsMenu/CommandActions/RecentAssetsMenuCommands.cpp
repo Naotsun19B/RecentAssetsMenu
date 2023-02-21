@@ -4,6 +4,7 @@
 #include "RecentAssetsMenu/RecentAssetsMenuGlobals.h"
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommandActions.h"
 #include "Interfaces/IMainFrameModule.h"
+#include "Framework/Commands/InputChord.h"
 #if UE_5_00_OR_LATER
 #include "Styling/AppStyle.h"
 #else

@@ -20,6 +20,7 @@ public class RecentAssetsMenu : ModuleRules
 			new string[]
 			{
 				"CoreUObject",
+				"InputCore",
 				"Engine",
 				"UnrealEd",
 				"Projects",

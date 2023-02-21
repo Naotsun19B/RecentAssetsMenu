@@ -31,7 +31,10 @@ namespace RecentAssetsMenu
 			{
 				FMainMRUFavoritesList& RecentlyOpenedAssetsList = GetRecentlyOpenedAssetsList();
 
-				check(InItem > -1 && InItem < RecentlyOpenedAssetsList.GetMaxItems());
+				if (InItem < 0 || InItem >= RecentlyOpenedAssetsList.GetNumItems())
+				{
+					return false;
+				}
 				
 				const FString OriginalPackageName = RecentlyOpenedAssetsList.GetMRUItem(InItem);
 #if UE_5_01_OR_LATER

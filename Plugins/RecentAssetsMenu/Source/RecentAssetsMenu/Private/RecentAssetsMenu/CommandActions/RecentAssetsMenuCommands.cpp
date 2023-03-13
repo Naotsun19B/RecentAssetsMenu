@@ -19,7 +19,7 @@ namespace RecentAssetsMenu
 		: TCommands<FRecentAssetsMenuCommands>
 		(
 			TEXT("RecentAssetsMenu"),
-			NSLOCTEXT("Contexts", "RecentAssetsMenu", "Recent Assets Menu"),
+			LOCTEXT("Contexts", "Recent Assets Menu"),
 			NAME_None,
 #if UE_5_00_OR_LATER
 			FAppStyle::GetAppStyleSetName()
@@ -50,6 +50,8 @@ namespace RecentAssetsMenu
 			
 			OpenRecentAssetCommands.Add(OpenRecentAsset);
 		}
+		
+		UI_COMMAND(ClearRecentAssetsCommand, "Clear Recent Assets", "Clear data about recently opened assets.", EUserInterfaceActionType::Button, FInputChord());
 	}
 
 	bool FRecentAssetsMenuCommands::IsBound()
@@ -91,6 +93,12 @@ namespace RecentAssetsMenu
 				FCanExecuteAction::CreateStatic(&FRecentAssetsMenuCommandActions::CanOpenRecentlyOpenedAsset)
 			);
 		}
+
+		CommandBindings->MapAction(
+			ClearRecentAssetsCommand,
+			FExecuteAction::CreateStatic(&FRecentAssetsMenuCommandActions::ClearRecentAssets),
+			FCanExecuteAction::CreateStatic(&FRecentAssetsMenuCommandActions::CanClearRecentAssets)
+		);
 	}
 
 	const FName FRecentAssetsMenuCommands::OpenRecentAssetBundle = TEXT("OpenRecentAsset");

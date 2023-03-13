@@ -20,5 +20,9 @@ namespace RecentAssetsMenu
 		// Open an asset that recently opened.
 		static void OpenRecentlyOpenedAsset(const int32 RecentAssetIndex);
 		static bool CanOpenRecentlyOpenedAsset();
+
+		// Clear data about recently opened assets.
+		static void ClearRecentAssets();
+		static bool CanClearRecentAssets();
 	};
 }

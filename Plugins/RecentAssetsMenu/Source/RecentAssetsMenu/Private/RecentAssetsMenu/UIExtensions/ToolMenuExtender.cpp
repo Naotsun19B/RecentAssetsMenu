@@ -80,6 +80,8 @@ namespace RecentAssetsMenu
 			RecentlyOpenedAssetsList.GetNumItems(),
 			FRecentAssetsMenuCommands::Get().MaxRecentAssets
 		);
+
+		FToolMenuSection& RecentSection = ToolMenu->FindOrAddSection(TEXT("Recent"));
 		
 		for (int32 Index = 0; Index < NumOfRecentAssets; Index++)
 		{
@@ -118,7 +120,6 @@ namespace RecentAssetsMenu
 				continue;
 			}
 			
-			FToolMenuSection& RecentSection = ToolMenu->FindOrAddSection(TEXT("Recent"));
 			FToolMenuEntry& MenuEntry = RecentSection.AddMenuEntry(
 				OpenRecentAssetCommands[Index],
 				FText::FromString(FPaths::GetBaseFilename(RecentlyOpenedAssetPath)),
@@ -126,6 +127,10 @@ namespace RecentAssetsMenu
 			);
 			MenuEntry.Name = NAME_None;
 		}
+
+		RecentSection.AddSeparator(TEXT("ClearRecentAssets"));
+		FToolMenuEntry& MenuEntry = RecentSection.AddMenuEntry(FRecentAssetsMenuCommands::Get().ClearRecentAssetsCommand);
+		MenuEntry.Name = NAME_None;
 	}
 }
 	

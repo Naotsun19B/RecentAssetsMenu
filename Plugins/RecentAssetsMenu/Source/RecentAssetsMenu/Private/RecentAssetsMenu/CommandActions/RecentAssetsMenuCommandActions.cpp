@@ -63,8 +63,8 @@ namespace RecentAssetsMenu
 					FMessageLog EditorErrors(TEXT("EditorErrors"));
 					FFormatNamedArguments Arguments;
 					Arguments.Add(TEXT("PackageName"), FText::FromString(PackageName));
-					EditorErrors.Warning(FText::Format( NSLOCTEXT("MRUList", "Error_FileDoesNotExist", "Map '{PackageName}' does not exist.  It will be removed from the recent items list."), Arguments ) );
-					EditorErrors.Notify(NSLOCTEXT("MRUList", "Notification_PackageDoesNotExist", "Map does not exist! Removed from recent items list!"));
+					EditorErrors.Warning(FText::Format( NSLOCTEXT("MRUList", "Error_FileDoesNotExist", "Asset '{PackageName}' does not exist.  It will be removed from the recent items list."), Arguments ) );
+					EditorErrors.Notify(NSLOCTEXT("MRUList", "Notification_PackageDoesNotExist", "Asset does not exist! Removed from recent items list!"));
 					RecentlyOpenedAssetsList.RemoveMRUItem(InItem);
 					RecentlyOpenedAssetsList.WriteToINI();
 
@@ -108,5 +108,24 @@ namespace RecentAssetsMenu
 	bool FRecentAssetsMenuCommandActions::CanOpenRecentlyOpenedAsset()
 	{
 		return FSlateApplication::Get().IsNormalExecution();
+	}
+
+	void FRecentAssetsMenuCommandActions::ClearRecentAssets()
+	{
+		FMainMRUFavoritesList& RecentlyOpenedAssetsList = GetRecentlyOpenedAssetsList();
+		
+		const int32 NumOfRecentAssets = RecentlyOpenedAssetsList.GetNumItems();
+		for (int32 Index = 0; Index < NumOfRecentAssets; Index++)
+		{
+			RecentlyOpenedAssetsList.RemoveMRUItem(0);
+		}
+		
+		RecentlyOpenedAssetsList.WriteToINI();
+	}
+
+	bool FRecentAssetsMenuCommandActions::CanClearRecentAssets()
+	{
+		const FMainMRUFavoritesList& RecentlyOpenedAssetsList = GetRecentlyOpenedAssetsList();
+		return (RecentlyOpenedAssetsList.GetNumItems() > 0);
 	}
 }

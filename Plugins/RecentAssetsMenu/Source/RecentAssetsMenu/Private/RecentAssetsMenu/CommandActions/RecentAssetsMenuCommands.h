@@ -42,6 +42,7 @@ namespace RecentAssetsMenu
 		static constexpr int32 MaxRecentAssets = 10;
 		static const FName OpenRecentAssetBundle;
 		TArray<TSharedPtr<FUICommandInfo>> OpenRecentAssetCommands;
+		TSharedPtr<FUICommandInfo> ClearRecentAssetsCommand;
 
 	private:
 		// Is the command registered here bound.

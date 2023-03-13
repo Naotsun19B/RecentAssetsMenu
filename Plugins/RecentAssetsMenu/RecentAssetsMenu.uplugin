@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
-	"Version": 1.0,
-	"VersionName": "1.0",
+	"Version": 1.1,
+	"VersionName": "1.1",
 	"FriendlyName": "RecentAssetsMenu",
 	"Description": "Adds a menu to open recently opened assets in the file menu.",
 	"Category": "Editor",

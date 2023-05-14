@@ -17,11 +17,11 @@ namespace RecentAssetsMenu
 		// Returns a list of recently opened assets.
 		static FMainMRUFavoritesList& GetRecentlyOpenedAssetsList();
 		
-		// Open an asset that recently opened.
+		// Opens an asset that recently opened.
 		static void OpenRecentlyOpenedAsset(const int32 RecentAssetIndex);
 		static bool CanOpenRecentlyOpenedAsset();
 
-		// Clear data about recently opened assets.
+		// Clears data about recently opened assets.
 		static void ClearRecentAssets();
 		static bool CanClearRecentAssets();
 	};

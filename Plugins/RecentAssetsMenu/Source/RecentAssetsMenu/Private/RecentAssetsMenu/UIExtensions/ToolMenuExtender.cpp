@@ -5,20 +5,27 @@
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommands.h"
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommandActions.h"
 #include "RecentAssetsMenu/Utilities/RecentAssetsMenuStyle.h"
-#include "AssetRegistry/IAssetRegistry.h"
 #include "ToolMenus.h"
-#include "MRUFavoritesList.h"
 #include "Engine/World.h"
-#if UE_5_00_OR_LATER
-#include "Styling/AppStyle.h"
-#else
-#include "EditorStyleSet.h"
-#endif
+#include "MRUFavoritesList.h"
+#include "AssetRegistry/IAssetRegistry.h"
+#include "AssetRegistry/AssetData.h"
 
 #define LOCTEXT_NAMESPACE "ToolbarExtender"
 
 namespace RecentAssetsMenu
 {
+#if UE_5_00_OR_LATER
+	const FName FToolMenuExtender::FileMainMenuName				= TEXT("MainFrame.MainMenu.File");
+#else
+	const FName FToolMenuExtender::FileMainMenuName				= TEXT("LevelEditor.MainMenu.File");
+#endif
+	const FName FToolMenuExtender::FileOpenSectionName			= TEXT("FileOpen");
+	const FName FToolMenuExtender::FileRecentAssetsEntryName	= TEXT("FileRecentAssets");
+	const FName FToolMenuExtender::RecentAssetsSubMenuName		= TEXT("RecentAssetsSubMenu");
+	const FName FToolMenuExtender::RecentSectionName			= TEXT("Recent");
+	const FName FToolMenuExtender::ClearRecentAssetsSectionName	= TEXT("ClearRecentAssets");
+	
 	void FToolMenuExtender::Register()
 	{
 		auto* ToolMenus = UToolMenus::Get();
@@ -27,24 +34,18 @@ namespace RecentAssetsMenu
 			return;
 		}
 		
-		UToolMenu* ToolMenu = ToolMenus->ExtendMenu(
-#if UE_5_00_OR_LATER
-			TEXT("MainFrame.MainMenu.File")
-#else
-			TEXT("LevelEditor.MainMenu.File")
-#endif
-		);
+		UToolMenu* ToolMenu = ToolMenus->ExtendMenu(FileMainMenuName);
 		if (!IsValid(ToolMenu))
 		{
 			return;
 		}
 
-		FToolMenuSection& Section = ToolMenu->FindOrAddSection(TEXT("FileOpen"));
+		FToolMenuSection& Section = ToolMenu->FindOrAddSection(FileOpenSectionName);
 #if !UE_5_00_OR_LATER
 		Section.InsertPosition = FToolMenuInsert(TEXT("FileRecentFiles"), EToolMenuInsertType::After);
 #endif
 		Section.AddDynamicEntry(
-			TEXT("FileRecentAssets"),
+			FileRecentAssetsEntryName,
 			FNewToolMenuSectionDelegate::CreateLambda(
 				[](FToolMenuSection& InSection)
 				{
@@ -55,7 +56,7 @@ namespace RecentAssetsMenu
 					}
 
 					InSection.AddSubMenu(
-						TEXT("RecentAssetsSubMenu"),
+						RecentAssetsSubMenuName,
 						LOCTEXT("RecentAssetsSubMenuLabel", "Recent Assets"),
 						LOCTEXT("RecentAssetsSubMenuToolTip", "Select a asset to open"),
 						FNewToolMenuDelegate::CreateStatic(&FToolMenuExtender::MakeRecentAssetsMenu),
@@ -81,7 +82,7 @@ namespace RecentAssetsMenu
 			FRecentAssetsMenuCommands::Get().MaxRecentAssets
 		);
 
-		FToolMenuSection& RecentSection = ToolMenu->FindOrAddSection(TEXT("Recent"));
+		FToolMenuSection& RecentSection = ToolMenu->AddSection(RecentSectionName);
 		
 		for (int32 Index = 0; Index < NumOfRecentAssets; Index++)
 		{
@@ -120,17 +121,17 @@ namespace RecentAssetsMenu
 				continue;
 			}
 			
-			FToolMenuEntry& MenuEntry = RecentSection.AddMenuEntry(
+			RecentSection.AddMenuEntry(
 				OpenRecentAssetCommands[Index],
 				FText::FromString(FPaths::GetBaseFilename(RecentlyOpenedAssetPath)),
 				FText::Format(LOCTEXT("TooltipFormat", "Opens recent asset: {0}"), FText::FromString(RecentlyOpenedAssetPath))
 			);
-			MenuEntry.Name = NAME_None;
 		}
 
-		RecentSection.AddSeparator(TEXT("ClearRecentAssets"));
-		FToolMenuEntry& MenuEntry = RecentSection.AddMenuEntry(FRecentAssetsMenuCommands::Get().ClearRecentAssetsCommand);
-		MenuEntry.Name = NAME_None;
+		FToolMenuSection& ClearRecentAssetsSection = ToolMenu->AddSection(ClearRecentAssetsSectionName);
+		ClearRecentAssetsSection.AddSeparator(ClearRecentAssetsSectionName);
+		
+		ClearRecentAssetsSection.AddMenuEntry(FRecentAssetsMenuCommands::Get().ClearRecentAssetsCommand);
 	}
 }
 	

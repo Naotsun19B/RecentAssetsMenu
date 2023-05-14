@@ -8,7 +8,7 @@
 
 struct FSlateIcon;
 
-// The type of icon registered in this style set.
+// Kind of icon registered in this style set.
 UENUM()
 enum class ERecentAssetsMenuStyleIconType : uint8
 {
@@ -26,23 +26,28 @@ namespace RecentAssetsMenu
 	public:
 		// Constructor.
 		FRecentAssetsMenuStyle();
-		
-		// Register-Unregister and instance getter this class.
+
+	private:
+		// The actual registration process for this class.
+		void RegisterInternal();
+
+	public:
+		// Registers-Unregisters and instance getter this class.
 		static void Register();
 		static void Unregister();
 		static const ISlateStyle& Get();
 
 		// Returns slate brush of specified icon type.
-		static const FSlateBrush* GetBrushFromIconType(ERecentAssetsMenuStyleIconType IconType);
+		static const FSlateBrush* GetBrushFromIconType(const ERecentAssetsMenuStyleIconType IconType);
 
 		// Returns slate icon of specified icon type.
-		static FSlateIcon GetSlateIconFromIconType(ERecentAssetsMenuStyleIconType IconType);
+		static FSlateIcon GetSlateIconFromIconType(const ERecentAssetsMenuStyleIconType IconType);
 		
 		// Returns property name of specified icon type.
-		static FName GetPropertyNameFromIconType(ERecentAssetsMenuStyleIconType IconType);
+		static FName GetPropertyNameFromIconType(const ERecentAssetsMenuStyleIconType IconType);
 		
 	private:
 		// An instance of this style class.
-		static TSharedPtr<FRecentAssetsMenuStyle> Instance;
+		static TUniquePtr<FRecentAssetsMenuStyle> Instance;
 	};
 }

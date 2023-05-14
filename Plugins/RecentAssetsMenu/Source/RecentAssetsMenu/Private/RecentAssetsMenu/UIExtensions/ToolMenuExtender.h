@@ -14,7 +14,16 @@ namespace RecentAssetsMenu
 	class FToolMenuExtender
 	{
 	public:
-		// Register the toolbar extension.
+		// The proper name of the extension point added by this menu extension.
+		static const FName FileMainMenuName;
+		static const FName FileOpenSectionName;
+		static const FName FileRecentAssetsEntryName;
+		static const FName RecentAssetsSubMenuName;
+		static const FName RecentSectionName;
+		static const FName ClearRecentAssetsSectionName;
+		
+	public:
+		// Registers the toolbar extension.
 		static void Register();
 
 	private:

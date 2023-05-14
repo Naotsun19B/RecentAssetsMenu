@@ -1,15 +1,11 @@
 ﻿// Copyright 2023 Naotsun. All Rights Reserved.
 
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommands.h"
-#include "RecentAssetsMenu/RecentAssetsMenuGlobals.h"
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommandActions.h"
+#include "RecentAssetsMenu/Utilities/RecentAssetsMenuStyle.h"
+#include "RecentAssetsMenu/RecentAssetsMenuGlobals.h"
 #include "Interfaces/IMainFrameModule.h"
 #include "Framework/Commands/InputChord.h"
-#if UE_5_00_OR_LATER
-#include "Styling/AppStyle.h"
-#else
-#include "EditorStyleSet.h"
-#endif
 
 #define LOCTEXT_NAMESPACE "RecentAssetsMenuCommands"
 
@@ -21,11 +17,7 @@ namespace RecentAssetsMenu
 			TEXT("RecentAssetsMenu"),
 			LOCTEXT("Contexts", "Recent Assets Menu"),
 			NAME_None,
-#if UE_5_00_OR_LATER
-			FAppStyle::GetAppStyleSetName()
-#else
-			FEditorStyle::GetStyleSetName()
-#endif
+			FRecentAssetsMenuStyle::Get().GetStyleSetName()
 		)
 		, CommandBindings(MakeShared<FUICommandList>())
 		, bIsBound(false)
@@ -35,14 +27,13 @@ namespace RecentAssetsMenu
 
 	void FRecentAssetsMenuCommands::RegisterCommands()
 	{
-		// Register command here.
 		for (int32 Index = 0; Index < MaxRecentAssets; Index++)
 		{
 			TSharedRef<FUICommandInfo> OpenRecentAsset = FUICommandInfoDecl(
 				AsShared(),
 				*FString::Printf(TEXT("OpenRecentAsset_%d"), Index),
 				FText::Format(LOCTEXT("OpenRecentAssetLabelFormat", "Open Recent Asset {0}"), FText::AsNumber(Index)),
-				LOCTEXT("OpenRecentAssetTooltip", "Opens a recently opened asset"),
+				LOCTEXT("OpenRecentAssetTooltip", "Opens a recently opened asset."),
 				OpenRecentAssetBundle
 			)
 			.UserInterfaceType(EUserInterfaceActionType::Button)
@@ -51,7 +42,7 @@ namespace RecentAssetsMenu
 			OpenRecentAssetCommands.Add(OpenRecentAsset);
 		}
 		
-		UI_COMMAND(ClearRecentAssetsCommand, "Clear Recent Assets", "Clear data about recently opened assets.", EUserInterfaceActionType::Button, FInputChord());
+		UI_COMMAND(ClearRecentAssetsCommand, "Clear Recent Assets", "Clears data about recently opened assets.", EUserInterfaceActionType::Button, FInputChord());
 	}
 
 	bool FRecentAssetsMenuCommands::IsBound()
@@ -83,8 +74,7 @@ namespace RecentAssetsMenu
 		const TSharedRef<FUICommandList>& MainFrameCommandBindings = IMainFrameModule::Get().GetMainFrameCommandBindings();
 
 		MainFrameCommandBindings->Append(CommandBindings);
-
-		// Bind command here.
+		
 		for (int32 Index = 0; Index < OpenRecentAssetCommands.Num(); Index++)
 		{
 			CommandBindings->MapAction(

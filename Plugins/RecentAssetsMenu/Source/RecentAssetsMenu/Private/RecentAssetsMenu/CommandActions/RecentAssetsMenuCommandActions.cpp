@@ -27,7 +27,7 @@ namespace RecentAssetsMenu
 		struct FMainMRUFavoritesListExtension
 		{
 		public:
-			static bool CustomVerifyMRUFile(int32 InItem, FString& OutPackageName)
+			static bool CustomVerifyMRUFile(const int32 InItem, FString& OutPackageName)
 			{
 				FMainMRUFavoritesList& RecentlyOpenedAssetsList = GetRecentlyOpenedAssetsList();
 

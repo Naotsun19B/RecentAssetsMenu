@@ -12,7 +12,7 @@ class FMenuBuilder;
 namespace RecentAssetsMenu
 {
 	/**
-	 * Class to register the shortcut key used in this plugin.
+	 * A class to register the shortcut key used in this plugin.
 	 */
 	class RECENTASSETSMENU_API FRecentAssetsMenuCommands : public TCommands<FRecentAssetsMenuCommands>
 	{
@@ -24,14 +24,14 @@ namespace RecentAssetsMenu
 		virtual void RegisterCommands() override;
 		// End of TCommands interface.
 
-		// Is the command registered here bound.
+		// Returns whether the commands registered here are bound.
 		static bool IsBound();
 
-		// Processing of command binding.
+		// Binds commands registered here.
 		static void Bind();
-		
+	
 	protected:
-		// Internal processing of command binding.
+		// Binds commands actually registered here.
 		virtual void BindCommands();
 
 	public:
@@ -45,7 +45,7 @@ namespace RecentAssetsMenu
 		TSharedPtr<FUICommandInfo> ClearRecentAssetsCommand;
 
 	private:
-		// Is the command registered here bound.
+		// Whether the commands registered here are bound.
 		bool bIsBound;
 	};
 }

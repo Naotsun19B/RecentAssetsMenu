@@ -8,7 +8,7 @@
 
 struct FSlateIcon;
 
-// Kind of icon registered in this style set.
+// An enum class that defines type of icon registered in this style set.
 UENUM()
 enum class ERecentAssetsMenuStyleIconType : uint8
 {
@@ -47,7 +47,7 @@ namespace RecentAssetsMenu
 		static FName GetPropertyNameFromIconType(const ERecentAssetsMenuStyleIconType IconType);
 		
 	private:
-		// An instance of this style class.
+		// The instance of this style class.
 		static TUniquePtr<FRecentAssetsMenuStyle> Instance;
 	};
 }

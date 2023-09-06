@@ -35,7 +35,7 @@ namespace RecentAssetsMenu
 		virtual void BindCommands();
 
 	public:
-		// A list of shortcut keys used by this plugin.
+		// The list of shortcut keys used by this plugin.
 		TSharedRef<FUICommandList> CommandBindings;
 		
 		// Instances of bound commands.

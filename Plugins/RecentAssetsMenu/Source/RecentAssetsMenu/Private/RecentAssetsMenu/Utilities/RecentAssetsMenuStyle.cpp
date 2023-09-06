@@ -4,8 +4,8 @@
 #include "RecentAssetsMenu/RecentAssetsMenuGlobals.h"
 #include "Interfaces/IPluginManager.h"
 #include "Styling/SlateStyleRegistry.h"
-#include "Styling/SlateStyleMacros.h"
 #if UE_5_00_OR_LATER
+#include "Styling/SlateStyleMacros.h"
 #include "Styling/CoreStyle.h"
 #endif
 #include "Textures/SlateIcon.h"
@@ -24,6 +24,10 @@ namespace RecentAssetsMenu
 	{
 	}
 
+#if !UE_5_00_OR_LATER
+#define IMAGE_BRUSH(RelativePath, ...) FSlateImageBrush(RootToContentDir(RelativePath, TEXT(".png")), __VA_ARGS__)
+#endif
+	
 	void FRecentAssetsMenuStyle::RegisterInternal()
 	{
 		SetCoreContentRoot(FPaths::EngineContentDir());
@@ -48,6 +52,10 @@ namespace RecentAssetsMenu
 			new IMAGE_BRUSH("OpenRecentAsset64", CoreStyleConstants::Icon16x16)
 		);
 	}
+
+#if !UE_5_00_OR_LATER
+#undef IMAGE_BRUSH
+#endif
 	
 	void FRecentAssetsMenuStyle::Register()
 	{

@@ -5,10 +5,13 @@ using System.Collections.Generic;
 
 public class RecentAssetsPluginEditorTarget : TargetRules
 {
-	public RecentAssetsPluginEditorTarget( TargetInfo Target) : base(Target)
+	public RecentAssetsPluginEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
+#if UE_5_2_OR_LATER
+		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
+#endif
 		ExtraModuleNames.Add("RecentAssetsPlugin");
 	}
 }

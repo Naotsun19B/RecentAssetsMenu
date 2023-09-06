@@ -7,7 +7,10 @@ public class RecentAssetsMenu : ModuleRules
 {
 	public RecentAssetsMenu(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+#if UE_5_2_OR_LATER
+		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
+#endif
 		
 		PublicDependencyModuleNames.AddRange(
 			new string[]
@@ -32,14 +35,6 @@ public class RecentAssetsMenu : ModuleRules
 				"AssetRegistry",
 				"ContentBrowser",
 				"EditorSubsystem",
-			}
-		);
-		
-		PublicIncludePaths.AddRange(
-			new string[]
-			{
-				// To use version macros.
-				Path.Combine(EngineDirectory, "Source", "Runtime", "Launch", "Resources"),
 			}
 		);
 	}

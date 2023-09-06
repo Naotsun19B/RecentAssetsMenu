@@ -5,10 +5,13 @@ using System.Collections.Generic;
 
 public class RecentAssetsPluginTarget : TargetRules
 {
-	public RecentAssetsPluginTarget( TargetInfo Target) : base(Target)
+	public RecentAssetsPluginTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
+#if UE_5_2_OR_LATER
+		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
+#endif
 		ExtraModuleNames.Add("RecentAssetsPlugin");
 	}
 }

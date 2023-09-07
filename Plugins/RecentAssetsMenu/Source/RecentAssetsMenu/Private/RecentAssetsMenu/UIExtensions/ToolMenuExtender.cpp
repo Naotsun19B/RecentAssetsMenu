@@ -2,6 +2,7 @@
 
 #include "RecentAssetsMenu/UIExtensions/ToolMenuExtender.h"
 #include "RecentAssetsMenu/RecentAssetsMenuGlobals.h"
+#if !UE_5_03_OR_LATER
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommands.h"
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommandActions.h"
 #include "RecentAssetsMenu/Utilities/RecentAssetsMenuStyle.h"
@@ -10,6 +11,7 @@
 #include "MRUFavoritesList.h"
 #include "AssetRegistry/IAssetRegistry.h"
 #include "AssetRegistry/AssetData.h"
+#endif
 
 #define LOCTEXT_NAMESPACE "ToolbarExtender"
 
@@ -28,6 +30,7 @@ namespace RecentAssetsMenu
 	
 	void FToolMenuExtender::Register()
 	{
+#if !UE_5_03_OR_LATER
 		auto* ToolMenus = UToolMenus::Get();
 		if (!IsValid(ToolMenus))
 		{
@@ -66,10 +69,12 @@ namespace RecentAssetsMenu
 				}
 			)
 		);
+#endif
 	}
 
 	void FToolMenuExtender::MakeRecentAssetsMenu(UToolMenu* ToolMenu)
 	{
+#if !UE_5_03_OR_LATER
 		if (!IsValid(ToolMenu))
 		{
 			return;
@@ -132,6 +137,7 @@ namespace RecentAssetsMenu
 		ClearRecentAssetsSection.AddSeparator(ClearRecentAssetsSectionName);
 		
 		ClearRecentAssetsSection.AddMenuEntry(FRecentAssetsMenuCommands::Get().ClearRecentAssetsCommand);
+#endif
 	}
 }
 	

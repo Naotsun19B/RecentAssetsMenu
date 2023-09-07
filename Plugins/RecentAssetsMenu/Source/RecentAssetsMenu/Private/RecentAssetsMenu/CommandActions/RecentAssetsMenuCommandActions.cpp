@@ -2,6 +2,7 @@
 
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommandActions.h"
 #include "RecentAssetsMenu/RecentAssetsMenuGlobals.h"
+#if !UE_5_03_OR_LATER
 #include "ContentBrowserModule.h"
 #include "AssetRegistry/IAssetRegistry.h"
 #include "Subsystems/AssetEditorSubsystem.h"
@@ -11,19 +12,26 @@
 #include "Misc/PackageName.h"
 #include "HAL/FileManager.h"
 #include "Logging/MessageLog.h"
+#endif
 
 namespace RecentAssetsMenu
 {
 	FMainMRUFavoritesList& FRecentAssetsMenuCommandActions::GetRecentlyOpenedAssetsList()
 	{
+#if UE_5_03_OR_LATER
+		static FMainMRUFavoritesList Dummy;
+		return Dummy;
+#else
 		const auto& ContentBrowserModule = FModuleManager::LoadModuleChecked<FContentBrowserModule>(TEXT("ContentBrowser"));
 		FMainMRUFavoritesList* RecentlyOpenedAssetsList = ContentBrowserModule.GetRecentlyOpenedAssets();
 		check(RecentlyOpenedAssetsList != nullptr);
 		return *RecentlyOpenedAssetsList;
+#endif
 	}
 	
 	void FRecentAssetsMenuCommandActions::OpenRecentlyOpenedAsset(const int32 RecentAssetIndex)
 	{
+#if !UE_5_03_OR_LATER
 		struct FMainMRUFavoritesListExtension
 		{
 		public:
@@ -103,15 +111,21 @@ namespace RecentAssetsMenu
 				);
 			}
 		}
+#endif
 	}
 
 	bool FRecentAssetsMenuCommandActions::CanOpenRecentlyOpenedAsset()
 	{
+#if UE_5_03_OR_LATER
+		return false;
+#else
 		return FSlateApplication::Get().IsNormalExecution();
+#endif
 	}
 
 	void FRecentAssetsMenuCommandActions::ClearRecentAssets()
 	{
+#if !UE_5_03_OR_LATER
 		FMainMRUFavoritesList& RecentlyOpenedAssetsList = GetRecentlyOpenedAssetsList();
 		
 		const int32 NumOfRecentAssets = RecentlyOpenedAssetsList.GetNumItems();
@@ -121,11 +135,16 @@ namespace RecentAssetsMenu
 		}
 		
 		RecentlyOpenedAssetsList.WriteToINI();
+#endif
 	}
 
 	bool FRecentAssetsMenuCommandActions::CanClearRecentAssets()
 	{
+#if UE_5_03_OR_LATER
+		return false;
+#else
 		const FMainMRUFavoritesList& RecentlyOpenedAssetsList = GetRecentlyOpenedAssetsList();
 		return (RecentlyOpenedAssetsList.GetNumItems() > 0);
+#endif
 	}
 }

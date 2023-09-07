@@ -8,7 +8,7 @@ public class RecentAssetsPluginTarget : TargetRules
 	public RecentAssetsPluginTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
+		DefaultBuildSettings = BuildSettingsVersion.Latest;
 #if UE_5_2_OR_LATER
 		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
 #endif

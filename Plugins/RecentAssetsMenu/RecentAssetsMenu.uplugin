@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.3",
+	"VersionName": "1.4",
 	"FriendlyName": "RecentAssetsMenu",
 	"Description": "Adds a menu to open recently opened assets in the file menu.\r\nIn UE5.3 and above, this plugin's functions is included as an engine feature, so in UE5.3 and above, this plugin essentially does nothing.",
 	"Category": "Editor",

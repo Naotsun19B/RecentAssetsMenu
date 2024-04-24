@@ -2,12 +2,12 @@
 
 #include "RecentAssetsMenu/CommandActions/RecentAssetsMenuCommandActions.h"
 #include "RecentAssetsMenu/RecentAssetsMenuGlobals.h"
+#include "MRUFavoritesList.h"
 #if !UE_5_03_OR_LATER
 #include "ContentBrowserModule.h"
 #include "AssetRegistry/IAssetRegistry.h"
 #include "Subsystems/AssetEditorSubsystem.h"
 #include "Framework/Application/SlateApplication.h"
-#include "MRUFavoritesList.h"
 #include "Editor.h"
 #include "Misc/PackageName.h"
 #include "HAL/FileManager.h"
